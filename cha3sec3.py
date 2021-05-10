@@ -35,3 +35,73 @@ class Solution:
         else:
             return f_match and self.match(s[1:], pattern[1:])
 
+
+class SolutionStrmatch:
+    mem = dict()
+
+    def isMatch(self, s: str, p: str) -> bool:
+        self.mem = dict()
+        return self.dp(0, 0, s, p)
+
+    def dp(self, i, j, s, p):   # 判断第i,j位
+
+        S, P = len(s), len(p)       # 取两个字符串的长度
+        if j == P: return i == S    # 如果p索引结束，返回s是否索引结束
+        if i == S:
+            if (P - j) % 2 == 1: return False   # 如果s索引结束，p剩余字符为奇数，则不可能匹配
+            while j < P:                        # 为偶数，判断其后所有偶数位字符是否为*，使重复次数为0
+                if p[j + 1] != "*": return False
+                j += 2
+            return True
+        if (i, j) in self.mem:
+            return self.mem[(i, j)]     # 返回第i,j位的判断情况
+        res = False
+        if s[i] == p[j] or p[j] == ".":     # 当前位判断是否相同
+            if j < P - 1 and p[j + 1] == "*":   # 如p索引位未结束且下一位为*，则判断后续字符串
+                # 有两种情况，s下一位重复或不重复
+                res = self.dp(i + 1, j, s, p) or self.dp(i, j + 2, s, p)
+            else:
+                res = self.dp(i + 1, j + 1, s, p)   # 没有*，各进一位
+        else:
+            if j < P - 1 and p[j + 1] == "*":   # 不相同，有*则相同，没有*则不同
+                res = self.dp(i, j + 2, s, p)   # p进2位，继续判断
+            else:
+                res = False
+        self.mem[(i, j)] = res  # 利用memory记录点值，共len(s)*len(p)
+        return res
+
+    def isNumber(self, s: str) -> bool:
+        s = s.strip()  # 去掉首尾空格
+        s = s.lower()  # 小写字母
+
+        # 正负(+-) 整数 [.] 整数 [E/e] 正负(+-) 整数
+
+        sign, numbers, dot, expon = [False] * 4
+
+        for i, ch in enumerate(s):
+            if ch.isdigit():
+                numbers = True
+
+            elif ch in ('+', '-'):
+                if i > 0 and s[i - 1] != 'e':  # 符号位出现,如果不在字符串第一位，只能在 E/e之后
+                    return False
+                if sign:
+                    return False  # 如果符号位出现过(遇到 e会将符号位、数字 重置为0)
+                sign = True
+
+            elif ch == '.':
+                if dot or expon:
+                    return False
+                dot = True
+
+            elif ch == 'e':
+                if not numbers or expon:
+                    return False
+
+                sign = False
+                numbers = False
+                expon = True
+            else:
+                return False
+
+        return numbers
