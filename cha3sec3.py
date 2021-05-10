@@ -105,3 +105,20 @@ class SolutionStrmatch:
                 return False
 
         return numbers
+
+    def reOrderArray(self, array):
+        from collections import deque
+        q = deque()
+        n = len(array)
+        for i in range(n):
+            if array[i] & 1 == 0:
+                q.append(array[i])
+            if array[-i-1] & 1 == 1:
+                q.appendleft(array[-i-1])
+        return q
+
+
+
+if __name__ == '__main__':
+    solution = SolutionStrmatch()
+    print(solution.reOrderArray([1,2,3,4,5,6,7]))
