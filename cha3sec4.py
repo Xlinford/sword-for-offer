@@ -30,8 +30,17 @@ class Solution:
         prev = None
         while head:
             head.next, prev, head = prev, head, head.next
-            print(prev.val)
         return prev
+
+    def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
+        l = head = ListNode(0)
+        while l1 or l2:
+            if l1.val <= l2.val:
+                l, l1 = l1, l1.next
+            else:
+                l, l2 = l2, l2.next
+        return head.next
+
 
 if  __name__ == '__main__':
     a = ListNode(1)
