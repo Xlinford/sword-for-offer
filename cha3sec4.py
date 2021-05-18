@@ -25,3 +25,23 @@ class Solution:
         while fast is not head:
             fast, head = fast.next, head.next
         return head
+
+    def reverseList(self, head: ListNode) -> ListNode:
+        prev = None
+        while head:
+            head.next, prev, head = prev, head, head.next
+            print(prev.val)
+        return prev
+
+if  __name__ == '__main__':
+    a = ListNode(1)
+    b = ListNode(2)
+    c = ListNode(3)
+    d = ListNode(4)
+    e = ListNode(5)
+    a.next = b
+    b.next = c
+    c.next = d
+    d.next = e
+    solu = Solution
+    rev_a = solu.reverseList(solu, a)

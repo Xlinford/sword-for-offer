@@ -43,28 +43,28 @@ class SolutionStrmatch:
         self.mem = dict()
         return self.dp(0, 0, s, p)
 
-    def dp(self, i, j, s, p):   # 判断第i,j位
+    def dp(self, i, j, s, p):  # 判断第i,j位
 
-        S, P = len(s), len(p)       # 取两个字符串的长度
-        if j == P: return i == S    # 如果p索引结束，返回s是否索引结束
+        S, P = len(s), len(p)  # 取两个字符串的长度
+        if j == P: return i == S  # 如果p索引结束，返回s是否索引结束
         if i == S:
-            if (P - j) % 2 == 1: return False   # 如果s索引结束，p剩余字符为奇数，则不可能匹配
-            while j < P:                        # 为偶数，判断其后所有偶数位字符是否为*，使重复次数为0
+            if (P - j) % 2 == 1: return False  # 如果s索引结束，p剩余字符为奇数，则不可能匹配
+            while j < P:  # 为偶数，判断其后所有偶数位字符是否为*，使重复次数为0
                 if p[j + 1] != "*": return False
                 j += 2
             return True
         if (i, j) in self.mem:
-            return self.mem[(i, j)]     # 返回第i,j位的判断情况
+            return self.mem[(i, j)]  # 返回第i,j位的判断情况
         res = False
-        if s[i] == p[j] or p[j] == ".":     # 当前位判断是否相同
-            if j < P - 1 and p[j + 1] == "*":   # 如p索引位未结束且下一位为*，则判断后续字符串
+        if s[i] == p[j] or p[j] == ".":  # 当前位判断是否相同
+            if j < P - 1 and p[j + 1] == "*":  # 如p索引位未结束且下一位为*，则判断后续字符串
                 # 有两种情况，s下一位重复或不重复
                 res = self.dp(i + 1, j, s, p) or self.dp(i, j + 2, s, p)
             else:
-                res = self.dp(i + 1, j + 1, s, p)   # 没有*，各进一位
+                res = self.dp(i + 1, j + 1, s, p)  # 没有*，各进一位
         else:
-            if j < P - 1 and p[j + 1] == "*":   # 不相同，有*则相同，没有*则不同
-                res = self.dp(i, j + 2, s, p)   # p进2位，继续判断
+            if j < P - 1 and p[j + 1] == "*":  # 不相同，有*则相同，没有*则不同
+                res = self.dp(i, j + 2, s, p)  # p进2位，继续判断
             else:
                 res = False
         self.mem[(i, j)] = res  # 利用memory记录点值，共len(s)*len(p)
@@ -113,12 +113,11 @@ class SolutionStrmatch:
         for i in range(n):
             if array[i] & 1 == 0:
                 q.append(array[i])
-            if array[-i-1] & 1 == 1:
-                q.appendleft(array[-i-1])
+            if array[-i - 1] & 1 == 1:
+                q.appendleft(array[-i - 1])
         return q
-
 
 
 if __name__ == '__main__':
     solution = SolutionStrmatch()
-    print(solution.reOrderArray([1,2,3,4,5,6,7]))
+    print(solution.reOrderArray([1, 2, 3, 4, 5, 6, 7]))
