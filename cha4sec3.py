@@ -98,23 +98,14 @@ class Solution:
         return method(postorder, 0, len(postorder)-1)
 
     def pathSum(self, root: TreeNode, target: int) -> List[List[int]]:
-        stack = root and [root, root.val, ]
-        pathlist = [[]]
+        stack = root and [(root, [root.val], target)]
+        pathlist = []
         while stack:
-            i = 0
-            for node in stack:
-                pathlist[i].append(node.val)
-                listsum = sum(pathlist[i])
-                if listsum > target:
-                    pathlist.pop(i)
-                elif listsum == target:
-                    continue
-                else:
-                    if not node.left:
-                        stack.pop(i)
-                        stack.append(node.left)
-
-                    pathlist.append(pathlist[-1])
-                    stack.append(node.right)
-                i += 1
+            n, v, t = stack.pop()
+            if not n.left and n.right and n.val==t:
+                pathlist.append(v)
+            if n.right:
+                stack.append([(n.right, v+[n.right.val], t-n.val)])
+            if n.left:
+                stack.append([(n.left, v+[n.left.val], t-n.val)])
         return pathlist
