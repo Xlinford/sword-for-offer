@@ -98,9 +98,7 @@ class Solution:
         return method(postorder, 0, len(postorder)-1)
 
     def pathSum(self, root: TreeNode, target: int) -> List[List[int]]:
-        if not root:
-            return []
-        stack = [root]
+        stack = root and [root, root.val, ]
         pathlist = [[]]
         while stack:
             i = 0
