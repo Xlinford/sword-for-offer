@@ -81,7 +81,39 @@ class Solution:
         return res
 
     def findNthDigit(self, n: int) -> int:
-        digit, start, count = 1, 0, 0
+        digit, start, count = 1, 1, 9
         while n > count:
             n -= count
+            start = 10 ** digit
             digit += 1
+            count = start * 9 * digit
+        num = start + (n - 1) // digit
+        return int(str(num)[(n - 1) % digit])
+
+    def minNumber(self, nums: List[int]) -> str:
+        def quick_sort(l, m):
+            if l >= m: return
+            a, b = l, m
+            while a < b:
+                while strnums[l] + strnums[b] < strnums[b] + strnums[l] and a < b: b -= 1
+                while strnums[l] + strnums[a] > strnums[a] + strnums[l] and a < b: a += 1
+                strnums[a], strnums[b] = strnums[b], strnums[a]
+            strnums[a], strnums[l] = strnums[l], strnums[a]
+            quick_sort(l, a - 1)
+            quick_sort(a + 1, m)
+
+        strnums = [str(i) for i in nums]
+        quick_sort(0, len(strnums) - 1)
+        return ''.join(strnums)
+
+    def translateNum(self, num: int) -> int:
+        ns = str(num)
+        a, b = 1, 1
+        for i in range(2, len(ns) + 1):
+            slice = ns[i - 2:i]
+            c = a + b if 10 <= int(slice) <= 25 else b
+            a = b
+            b = c
+        return b
+
+    def maxValue(self, grid: List[List[int]]) -> int:
