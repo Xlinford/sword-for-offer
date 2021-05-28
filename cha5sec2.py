@@ -117,3 +117,21 @@ class Solution:
         return b
 
     def maxValue(self, grid: List[List[int]]) -> int:
+        for a in range(1, len(grid)):
+            grid[0][a] += grid[0][a-1]
+        for b in range(1, len(grid[0])):
+            grid[b][0] += grid[b-1][0]
+        for i in range(1, len(grid)):
+            for j in range(1, len(grid[0])):
+                grid[i][j] += max(grid[i - 1][j], grid[i][j - 1])
+        return grid[-1][-1]
+
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        dic = {}
+        tem = res = 0
+        for i, char in enumerate(s):
+            j = dic.get(char, -1)
+            dic[char] = i
+            tem = tem + 1 if tem < i - j else i - j
+            res = max(tem, res)
+        return res
