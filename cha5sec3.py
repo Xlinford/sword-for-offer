@@ -1,5 +1,7 @@
 from typing import List
 
+from cha3sec4 import ListNode
+
 
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
@@ -45,3 +47,10 @@ class Solution:
 
         tem = [0] * len(nums)
         return reverse(0, len(nums) - 1)
+
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        A, B = headA, headB
+        while A != B:
+            A = A.next if A else headB
+            B = B.next if B else headA
+        return A
