@@ -29,6 +29,7 @@ class Solution:
     def kthLargest(self, root: TreeNode, k: int) -> int:
         self.stack = root.val
         self.k = k
+
         def dfs(node):
             if not node: return
             dfs(node.right)
@@ -37,6 +38,7 @@ class Solution:
             if self.k == 0:
                 self.stack = node.val
             dfs(node.left)
+
         dfs(root)
         return self.stack
 
@@ -56,4 +58,54 @@ class Solution:
         return recur(root) != -1
 
     def singleNumbers(self, nums: List[int]) -> List[int]:
+        a, b = nums[0], 1
+        for i in nums[1:]:
+            a ^= i
+        x, y = 0, 0
+        while a & b == 0:
+            b <<= 1
+        for i in nums:
+            if i & b:
+                x ^= i
+            else:
+                y ^= i
+        return [x, y]
+
+    def singleNumber(self, nums: List[int]) -> int:
+        one, two = 0, 0
+        for num in nums:
+            one = one ^ num & ~two
+            two = two ^ num & ~one
+        return one
+
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        pre, cur = 0, len(nums) - 1
+        while pre <= cur:
+            numsum = nums[pre] + nums[cur]
+            if numsum == target:
+                break
+            elif numsum > target:
+                cur -= 1
+            else:
+                pre += 1
+        return [nums[pre], nums[cur]]
+
+    def findContinuousSequence(self, target: int) -> List[List[int]]:
+        i, j, s, res = 1, 2, 3, []
+        while i < j:
+            if s == target:
+                res.append(list(range(i, j + 1)))
+            if s >= target:
+                s -= i
+                i += 1
+            else:
+                j += 1
+                s += j
+        return res
+
+    def reverseWords(self, s: str) -> str:
+
+
+
+
 
