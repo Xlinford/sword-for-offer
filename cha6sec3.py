@@ -104,8 +104,20 @@ class Solution:
         return res
 
     def reverseWords(self, s: str) -> str:
+        s = s.strip()
+        i = j = len(s) - 1
+        res = []
+        while i>=0:
+            while i>=0 and s[i] != ' ':
+                i -= 1
+            res.append(s[i+1:j+1])
+            while s[i] == ' ':
+                i -= 1
+            j = i
+        return ' '.join(res)
 
+    def reverseLeftWords(self, s: str, n: int) -> str:
+        return s[n:] + s[:n]
 
-
-
+    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
 
