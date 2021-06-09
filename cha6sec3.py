@@ -1,7 +1,7 @@
 import collections
 from typing import List
 from main import TreeNode
-
+import queue
 
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
@@ -136,3 +136,25 @@ class Solution:
                 res.append(deque[0])
         return res
 
+class MaxQueue:
+
+    def __init__(self):
+        self.queue = queue.Queue()
+        self.deque = collections.deque()
+
+    def max_value(self) -> int:
+        if not self.deque: return -1
+        return self.deque[0]
+
+    def push_back(self, value: int) -> None:
+        self.queue.put(value)
+        while self.deque and self.deque[-1] < value:
+            self.deque.pop()
+        self.deque.append(value)
+
+    def pop_front(self) -> int:
+        if self.queue.empty(): return -1
+        val = self.queue.get()
+        if val == self.deque[0]:
+            self.deque.popleft()
+        return val
