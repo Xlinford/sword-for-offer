@@ -1,45 +1,45 @@
-def fibonacci(n):
-    a = b = 1
-    for _ in range(n - 1):
-        a, b = b, a + b
-    return b
+class Solution:
 
+    def fibonacci(self, n):
+        a, b = 0, 1
+        for _ in range(n):
+            a, b = b, a + b
+        return a % 1000000007
 
-def find_min(nums):
-    h, t = 0, len(nums) - 1
-    if nums[h] < nums[t]:
-        return nums[h]
-    while h <= t:
-        m = (h + t) // 2
-        if nums[h] > nums[m]:
-            t = m
-        elif nums[m] < nums[t]:
-            h = m
-        else:
+    def find_min(self, nums):
+        h, t = 0, len(nums) - 1
+        if nums[h] < nums[t]:
             return nums[h]
+        while h <= t:
+            m = (h + t) // 2
+            if nums[h] > nums[m]:
+                t = m
+            elif nums[m] < nums[t]:
+                h = m
+            else:
+                return nums[h]
 
+    def exits(self, g, word: str) -> bool:
+        R, C = len(g), len(g[0])
 
-def exits(self, g, word: str) -> bool:
-    R, C = len(g), len(g[0])
-
-    def speard(i, j, w):
-        if not w:
-            return True
-        original, g[i][j] = g[i][j], '-'
-        spreaded = False
-        for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
-            if 0 <= x < R and 0 <= y < C and g[x][y] == w[0] and speard(x, y, w[1:]):
-                spreaded = True
-                break
-        g[i][j] = original
-        return spreaded
-
-    for i in range(R):
-        for j in range(C):
-            if g[i][j] == word[0] and speard(i, j, word[1:]):
+        def speard(i, j, w):
+            if not w:
                 return True
+            original, g[i][j] = g[i][j], '-'
+            spreaded = False
+            for x, y in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+                if 0 <= x < R and 0 <= y < C and g[x][y] == w[0] and speard(x, y, w[1:]):
+                    spreaded = True
+                    break
+            g[i][j] = original
+            return spreaded
 
-    return False
+        for i in range(R):
+            for j in range(C):
+                if g[i][j] == word[0] and speard(i, j, word[1:]):
+                    return True
+
+        return False
 
 
 # 机器人的运动范围
