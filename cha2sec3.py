@@ -21,6 +21,9 @@ class Solution:
         root.right = self.buildTree(preorder[cut + 1:], inorder[cut + 1:])
         return root
 
+
+
+# 剑指 Offer 09. 用两个栈实现队列
 class CQueue:
 
     def __init__(self):

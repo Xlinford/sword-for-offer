@@ -1,24 +1,38 @@
+from typing import List
+
+
 class Solution:
 
-    def fibonacci(self, n):
+    # 剑指 Offer 10- I. 斐波那契数列
+    def fib(self, n: int) -> int:
         a, b = 0, 1
         for _ in range(n):
             a, b = b, a + b
         return a % 1000000007
 
-    def find_min(self, nums):
-        h, t = 0, len(nums) - 1
-        if nums[h] < nums[t]:
-            return nums[h]
+    # 剑指 Offer 10- II. 青蛙跳台阶问题
+    def numWays(self, n: int) -> int:
+        a = b = 1
+        for _ in range(n):
+            a, b = b, a + b
+        return a % 1000000007
+
+    # 剑指 Offer 11. 旋转数组的最小数字
+    def minArray(self, numbers: List[int]) -> int:
+        h, t = 0, len(numbers) - 1
+        if numbers[h] < numbers[t]:
+            return numbers[h]
         while h <= t:
             m = (h + t) // 2
-            if nums[h] > nums[m]:
+            if numbers[m] > numbers[t]:
+                h = m + 1
+            elif numbers[m] < numbers[t]:
                 t = m
-            elif nums[m] < nums[t]:
-                h = m
             else:
-                return nums[h]
+                t -= 1
+        return numbers[h]
 
+    # 剑指 Offer 12. 矩阵中的路径
     def exits(self, g, word: str) -> bool:
         R, C = len(g), len(g[0])
 
@@ -60,6 +74,7 @@ class SyboMoveSolution:
         movingCore(threshold, rows, cols, 0, 0)
         return sum(sum(visited, []))
 
+
 # 剪绳子
 def cut_rope(length):
     if length < 2:
@@ -73,8 +88,8 @@ def cut_rope(length):
         left = length % 3
         if left == 1:
             three_muti_times -= 1
-        two_muti_times = (length - 3*three_muti_times)//2
-        return (3**three_muti_times)*(2**two_muti_times)
+        two_muti_times = (length - 3 * three_muti_times) // 2
+        return (3 ** three_muti_times) * (2 ** two_muti_times)
 
 
 # 二进制中1的个数
@@ -84,10 +99,11 @@ def hamming_weight(n):
         count += (n & 1 == 1)
         n >>= 1
     return count
+
+
 def hamming_weigth1(n):
     bits = 0
     while n:
         bits += 1
-        n = (n-1) & n
+        n = (n - 1) & n
     return bits
-
